@@ -2,25 +2,24 @@ import React, { useState } from "react";
 import questions from "./Questions";
 import Score from "./Score";
 
-const Quiz = () => {
+const Quiz = ({increase}) => {
   const [count, setcount] = useState(0);
 
   const [rightAnswer, setRightAnswer] = useState(0);
   const [wrongAnswer, setWrongAnswer] = useState(0);
-  const [value, setvalue] = useState(false);
+  const [value, setvalue] = useState();
 
-  function increasecount() {
-    if (count === 9) {
-      setcount(0);
-    } else {
-      setcount(count + 1);
-    }
-  }
+  // function increasecount() {
+  //   if (count === 9) {
+  //     setcount(0);
+  //   } else {
+  //     setcount(count + 1);
+  //   }
+  // }
 
   function selectedvalue(e) {
     let val = e.target.value;
     setvalue(val);
-    e.prevantDefault();
   }
 
   function submitanswer() {
@@ -32,8 +31,6 @@ const Quiz = () => {
       } else {
         setcount(count + 1);
       }
-      console.log("right answer");
-      setvalue("unchecked");
     } else {
       setWrongAnswer(wrongAnswer + 1);
       if (count === 9) {
@@ -42,6 +39,13 @@ const Quiz = () => {
         setcount(count + 1);
       }
     }
+    uncheckradio()
+  }
+
+  function uncheckradio(){
+    let allradio = document.querySelectorAll(".radiobutton");
+
+    allradio.forEach(value => value.checked =false)
   }
 
   return (
@@ -59,7 +63,7 @@ const Quiz = () => {
             type="radio"
             name="a"
             id=""
-            className="w-6 h-8 mr-8"
+            className="w-6 h-8 mr-8 radiobutton"
             value={questions[count].option.option1}
             // checked={true}
           />
@@ -70,7 +74,7 @@ const Quiz = () => {
             type="radio"
             name="a"
             id=""
-            className="w-6 h-8 mr-8"
+            className="w-6 h-8 mr-8 radiobutton"
             value={questions[count].option.option2}
             // checked={true}
           />
@@ -81,7 +85,7 @@ const Quiz = () => {
             type="radio"
             name="a"
             id=""
-            className="w-6 h-8 mr-8"
+            className="w-6 h-8 mr-8 radiobutton"
             value={questions[count].option.option3}
             // checked={true}
           />
@@ -92,7 +96,7 @@ const Quiz = () => {
             type="radio"
             name="a"
             id=""
-            className="w-6 h-8 mr-8"
+            className="w-6 h-8 mr-8 radiobutton"
             value={questions[count].option.option4}
             // checked={true}
           />
@@ -100,12 +104,6 @@ const Quiz = () => {
         </h2>
       </div>
 
-      <button
-        onClick={increasecount}
-        className="mx-[42%] w-[300px] p-6 bg-violet-400 rounded text-3xl mb-6"
-      >
-        skip question
-      </button>
       <button
         onClick={submitanswer}
         className="mx-[42%] w-[300px] p-6 bg-violet-400 rounded text-3xl"
