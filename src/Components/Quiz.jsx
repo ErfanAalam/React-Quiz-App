@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import questions from "./Questions";
 import Score from "./Score";
+import Timer from "./Timer";
 
-const Quiz = ({increase}) => {
+const Quiz = () => {
   const [count, setcount] = useState(0);
 
   const [rightAnswer, setRightAnswer] = useState(0);
@@ -25,7 +26,7 @@ const Quiz = ({increase}) => {
   function submitanswer() {
     if (questions[count].answer === value) {
       setRightAnswer(rightAnswer + 1);
-      if (count === 9) {
+      if (count === questions.length) {
         // exception hai yrrrr
         setcount(0);
       } else {
@@ -33,7 +34,7 @@ const Quiz = ({increase}) => {
       }
     } else {
       setWrongAnswer(wrongAnswer + 1);
-      if (count === 9) {
+      if (count === questions.length) {
         setcount(0);
       } else {
         setcount(count + 1);
@@ -49,6 +50,8 @@ const Quiz = ({increase}) => {
   }
 
   return (
+    <>
+    {count < questions.length ? (
     <div>
       <h2 className="w-[800px] h-auto bg-teal-300 p-6 mx-auto my-20 text-2xl rounded">
         Question {count + 1} :- {questions[count].question}
@@ -111,16 +114,16 @@ const Quiz = ({increase}) => {
         Submit Answer
       </button>
 
-      {count == 9 ? (
-        <Score right={rightAnswer} wrong={wrongAnswer} />
-      ) : (
-        <h2 className="text-white text-center mt-10 text-2xl">
-          Submit all questions to see result
-        </h2>
-      )}
 
-      {/* <Score right={rightAnswer} wrong = {wrongAnswer} /> */}
     </div>
+      
+        
+      ) : <Score right={rightAnswer} wrong={wrongAnswer} />
+      }
+
+      {/* Timer component not working  */}
+      {/* <Timer action ={submitanswer} count={count} /> */}
+    </>
   );
 };
 
